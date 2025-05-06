@@ -1,0 +1,7 @@
+flask
+pillow
+python-dotenv
+groq
+deep-translator
+gtts 
+arabic_reshaper

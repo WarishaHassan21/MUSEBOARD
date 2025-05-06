@@ -1,0 +1,113 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ac1b9b;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .poem-container {
+        background-color: #74599e;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .poem-container h2 {
+        color: #fff;
+        margin-bottom: 15px;
+    }
+
+    .poem-container p {
+        color: #f5f5f5;
+        white-space: pre-line;
+        font-size: 1.2em;
+        line-height: 1.6;
+    }
+
+    audio {
+        margin-top: 10px;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .button-group {
+        margin-top: 30px;
+    }
+
+    a.button {
+        display: inline-block;
+        margin: 10px;
+        text-decoration: none;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1.1em;
+        transition: background-color 0.3s ease;
+    }
+
+    a.button:hover {
+        background-color: #d21476;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poem Recitation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/music.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>MuseBoard - Poem Recitation</h1>
+
+        <div class="poem-container">
+            <h2>Your Generated Poem</h2>
+            <p id="poemText">{{ session['poem_original'] }}</p>
+        </div>
+
+        <h2>Listen to the Poem</h2>
+        <audio controls>
+            <source src="{{ url_for('static', filename='audio/recitation.mp3') }}" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="button-group">
+            <a class="button" href="{{ url_for('static', filename='audio/recitation.mp3') }}" download="recitation.mp3">🎧 Download Audio</a>
+            <a class="button" href="#" id="downloadPoem">📝 Download Poem</a>
+            <a class="button" href="{{ url_for('museboard') }}">🎤 Generate Another Poem</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('downloadPoem').addEventListener('click', function () {
+            const poemText = document.getElementById('poemText').innerText;
+            const blob = new Blob([poemText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'poem.txt';
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>

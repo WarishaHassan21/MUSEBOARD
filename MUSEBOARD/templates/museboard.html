@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MuseBoard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #fe43b0, #57b4f7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ae007d;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        form {
+            background: rgb(153, 64, 197);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input[type="text"], select, input[type="number"] {
+            padding: 10px 15px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            background-color: #db3469;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        button:hover {
+            background-color: #b9294d;
+        }
+
+        .flash-messages {
+            margin-top: 20px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .flash-messages li {
+            background-color: #ff4c4c;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .flash-messages .error {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>MuseBoard - Generate Your Emotion-Inspired Poem</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <input type="text" name="emotion" placeholder="Enter an emotion (e.g. joy, sorrow)" required>
+
+        <label for="language">Select Language:</label>
+        <select name="language" id="language" required>
+            <option value="en">English</option>
+            <option value="ur">Urdu</option>
+            <option value="pa">Punjabi</option>
+            <option value="sd">Sindhi</option>
+            <option value="bal">Balochi</option>
+            <option value="ps">Pashto</option>
+            <option value="skr">Saraiki</option>
+        </select>
+
+        <label for="lines">Number of Lines:</label>
+        <input type="number" name="lines" id="lines" value="5" min="1" max="10" required>
+
+        <button type="submit">Generate</button>
+    </form>
+</body>
+</html>

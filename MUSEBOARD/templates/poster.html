@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your MuseBoard Poster</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ff2492, #67a4f9);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .poster {
+            background-color: rgba(56, 76, 225, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 850px;
+            width: 100%;
+        }
+
+        .poster img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .poem-text {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            font-family: 'Arial', sans-serif;
+            white-space: pre-line;
+        }
+
+        .btn {
+            background-color: #ff69b4;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .btn:hover {
+            background-color: #ff4b99;
+        }
+
+        /* RTL handling for languages like Urdu */
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Styling for the translation box */
+        .poem-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .poem-box h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .poem-box p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #555;
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Your MuseBoard Poster</h1>
+
+    <div class="poster">
+        <img src="{{ url_for('static', filename='posters/' + poster_filename) }}" alt="Poetry Poster">
+        <div class="poem-text {% if language in ['ur', 'sd', 'bal', 'ps', 'skr'] %} rtl {% endif %}">
+            <p>{{ poem_original }}</p>
+        </div>
+
+        <!-- Translation Section -->
+        {% if poem_translated and poem_translated != poem_original %}
+        <div class="poem-box">
+            <h2>Translation (English)</h2>
+            <p class="poem-text">{{ poem_translated }}</p>
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('download_file', folder='posters', filename=poster_filename) }}" class="btn">Download Poster</a>
+        <a href="{{ url_for('music') }}" class="btn">Listen to Recitation</a>
+    </div>
+
+</body>
+</html>
